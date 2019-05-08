@@ -1,0 +1,55 @@
+<style lang="less">
+
+</style>
+
+<template>
+  <view class="body">
+    <button @tap="showModal">点击</button>
+    <popup size="400" duration='400' type="top" :showModal.sync="showModal">
+      <view>size 长度 rpx值</view>
+      <view>duration 动画时长 默认400</view>
+      <view>type 有 top bottom left right</view>
+    </popup>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy';
+  import popup from '@/components/c-popup';
+  import {
+    calculateDiffTime
+  } from '../lib/utils.js';
+  import {
+    test
+  } from '../server/index.js';
+  export default class Index extends wepy.page {
+    config = {
+      navigationBarTitleText: 'Index'
+    };
+    components = {
+      popup: popup
+    };
+    data = {
+      showModal: false
+    };
+    computed = {};
+    watch = {
+    };
+    onLoad() {}
+    onShow() {
+      test().then(res=>{
+        console.log(res)
+      })
+    }
+    methods = {
+      showModal() {
+        this.showModal = true
+        this.$apply()
+      }
+    };
+    onHide() {
+    }
+    onUnload() {
+    }
+  }
+</script>

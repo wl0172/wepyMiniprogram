@@ -1,0 +1,62 @@
+<style lang="less">
+  page {
+    background-color: #f6f6f6;
+  }
+  .body {
+    height: 100%;
+    font-family: '\5FAE\8F6F\96C5\9ED1', arial;
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  import wepy from 'wepy'
+  import 'wepy-async-function'
+  import socket from './lib/socket.js'
+  import config from './config/index.js'
+  import {
+    updateManager
+  } from './lib/wx-update.js'
+  require('./lib/date')
+  export default class extends wepy.app {
+    config = {
+      pages: [
+        'pages/index'
+      ],
+      window: {
+        backgroundTextStyle: 'light',
+        navigationBarBackgroundColor: '#fff',
+        navigationBarTitleText: '小程序',
+        navigationBarTextStyle: 'black',
+        backgroundColor: '#F6F6F6'
+      },
+      networkTimeout: {
+        request: 30000,
+        downloadFile: 30000
+      }
+    };
+    globalData = {
+      userInfo: null
+    };
+    constructor() {
+      super()
+      this.use('requestfix')
+      this.use('promisify')
+    }
+    onLaunch() {
+      console.info('小程序已启动！')
+      updateManager()      
+      // socket.onLoadSocket(config.socketUrl, {}).then(res => {
+      //   wx.sendSocketMessage({
+      //     data: '发送一条消息1111'
+      //   })
+      //   wx.onSocketMessage(function(res) {
+      //     console.log('收到服务器内容：' + res.data)
+      //   })
+      // })
+    }
+    onHide() {
+      wepy.closeSocket()
+    }
+  }
+</script>
